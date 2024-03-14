@@ -1,6 +1,6 @@
 
-' Este ejplo actualiza carpetas por directorio segun variables que se incluyen al iniciar
-Option Explicit
+' Este ejemplo Actualización masiva desde un archivo Excel principal a archivos secundarias, 
+' visible únicamente para la persona responsable.  
 Sub Crear_CarpetaN2()
 
     Dim CarpetaPrincipal As String
@@ -18,10 +18,8 @@ Sub Crear_CarpetaN2()
     Serie = InputBox("Ingrese el número de consecutivo.")
     
     If Serie = Empty Then Exit Sub
-
-    ' CarpetaPrincipal = "C:\Users\jpineda\Desktop\CUBO\IMPLEMENTAR\1.MACRO\TC JEFES DE TRAZA"
     
-    CarpetaPrincipal = "C:\Users\jpineda\Desktop\CUBO\PROYECTOS\Laboratorio\Laboratorio\LABORATORIO\TC JEFES DE TRAZA"
+    CarpetaPrincipal = "C:Rutaprincipal"
     
     Set ObjetoFSO = CreateObject("Scripting.FileSystemObject")
     
@@ -44,10 +42,7 @@ Sub Crear_CarpetaN2()
                 ' para que se ejecute la macro al abrirse
                 Set wbDestino = Workbooks.Open(ArchAct)
                 
-                ' Se espera 3 minutos para dar tiempo a la actualización
-                ' Application.Wait (Now + TimeValue("0:03:30"))
-                ' wbDestino.RefreshAll No se utilizó esta opción porque se tenía que actualizar la fecha
-                
+                            
                 ' Para actualizar la fecha y las conexiónes se llama a m_ActAll del otro workbook
                 Run "'" & wbDestino.Name & "'!" & "m_ActAll"
                 Workbooks(wbDestino.Name).Close savechanges:=True
@@ -59,5 +54,5 @@ Sub Crear_CarpetaN2()
         Next
     
     Next
-
+    
 End Sub

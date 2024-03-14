@@ -1,10 +1,5 @@
 ' Este ejm es para actualizar las conexiones e insertar fechas en la celda de la hoja "Resumen" C4
 Sub m_ActAll()
-'
-' m_ActAll Macro
-'
-
-'
     Worksheets("Resumen").Activate
     Range("G3").Select
     ActiveWorkbook.RefreshAll
