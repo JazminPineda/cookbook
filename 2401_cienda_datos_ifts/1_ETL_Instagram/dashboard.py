@@ -1,8 +1,9 @@
 import pandas as pd
 import matplotlib.pyplot as plt
+#import lectura_archivo 
 
 # Leer los datos del archivo Excel
-datos = pd.read_excel("C:/Users/jazmin/Documents/Otros programas/Proyectos/python/compañero/Datos usuarios de instagram.xlsx", sheet_name="Hoja1", index_col=0)
+datos = pd.read_excel("1_ETL_Instagram\Datos usuarios de instagram.xlsx", sheet_name="Hoja1", index_col=0)
 
 # Definir las funciones para clasificar la ocupación y el continente
 def clasificar_ocupacion(ocupacion):
@@ -58,16 +59,16 @@ fig, axs = plt.subplots(3, 2, figsize=(12, 15))
 
 seguidores_por_continente = datos.groupby('Continente')['Seguidores(millones)'].sum()
 axs[0, 0].pie(seguidores_por_continente, labels=seguidores_por_continente.index, autopct='%1.1f%%')
-axs[0, 0].set_title('Distribución de Seguidores por Continente')
+axs[0, 0].set_title('Distribución Seguidores por Continente')
 
 # 2 # Gráfico de barras de seguidores por tipo de influencer
     #se agrupa seguidores por tipo de influencers, y se suman los seguidores. Se crea un grafico tipo de barras, color salmon, y se
     #lo asocia al 2do cuadrante
 seguidores_por_continente_tipo = datos.groupby(['Continente', 'Tipo'])['Seguidores(millones)'].sum().unstack()
 seguidores_por_continente_tipo.plot(kind='bar', ax=axs[0, 1])
-#axs[0, 1].set_xlabel('Continente')
+
 axs[0, 1].set_ylabel('Seguidores (millones)')
-axs[0, 1].set_title('Distribucion de Tipo Influencer x Cont.')
+axs[0, 1].set_title('Agrupación por Tipo Ocupación y Cant Seguidores x Continente')
 axs[0, 1].legend(title='Tipo')
 axs[0, 1].grid(axis='y', linestyle='--')
 
@@ -104,7 +105,7 @@ seguidores_por_tipo = seguidores_por_tipo.sort_values(ascending=False)
 seguidores_por_tipo.plot(kind='bar', color='salmon', ax=axs[1, 1])
 #axs[1, 1].set_xlabel('Tipo de Influencer')
 axs[1, 1].set_ylabel('Seguidores (millones)')
-axs[1, 1].set_title('Seguidores por Continente y Tipo de Influencer')
+axs[1, 1].set_title('Seguidores  vs Ocupac Propietario EEUU')
 axs[1, 1].grid(axis='y', linestyle='--')
 
 # Crear gráfico de cajas y bigotes para la distribución de seguidores por continente
@@ -115,24 +116,16 @@ axs[2, 0].set_ylabel('País')
 axs[2, 0].set_title('Distribución de Seguidores en America')
 
 
-# Filtrar los datos para incluir solo los países de América
-datos_america = datos[datos['Continente'] == 'América']
-
-# Calcular la cantidad total de seguidores para cada país de América
-seguidores_por_pais = datos_america.groupby('País')['Seguidores(millones)'].sum()
-
-# Seleccionar los tres países con más seguidores
-top_3_paises = seguidores_por_pais.nlargest(3)
-
-# Crear un gráfico de barras para visualizar los tres países con más seguidores
-top_3_paises.plot(kind='bar', color='skyblue', ax=axs[2, 1])
+# Filtra datos  top 5 Influencer
+top_5_influencer = datos.loc[0:5, ['Propietario',	'Seguidores(millones)', 'País']]
+top_5_influencer.plot(kind='scatter', x='País', y='Propietario', s=top_5_influencer['Seguidores(millones)'], c='Seguidores(millones)',colormap='viridis', alpha=0.5, ax=axs[2, 1])
 axs[2, 1].set_xlabel('País')
-axs[2, 1].set_ylabel('Seguidores (millones)')
-axs[2, 1].set_title('Top 3 Países de América con Más Seguidores')
-axs[2, 1].grid(axis='y', linestyle='--')
+axs[2, 1].set_ylabel('Propietario')
+axs[2, 1].set_title('Top 5 Propietario con Más Seguidores')
+
 
 # Ajustar diseño y mostrar gráficos
-    #Tight_layout ajusta los graficos a la pantalla para evitar superposiciones, y show, finaliza y muestra los graficos.
+#Tight_layout ajusta los graficos a la pantalla para evitar superposiciones, y show, finaliza y muestra los graficos.
 plt.tight_layout()
 plt.show()
 

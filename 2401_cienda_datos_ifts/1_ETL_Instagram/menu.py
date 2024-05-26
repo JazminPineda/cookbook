@@ -40,7 +40,7 @@ def menu():
 
 
 def lectura_archivo():
-    archivo = "C:\\Users\\jazmin\\Documents\\Otros programas\\Proyectos\\python\\cienda_datos_ifts\\Datos usuarios de instagram.xlsx"
+    archivo = "1_ETL_Instagram\Datos usuarios de instagram.xlsx"
     df_datos = pd.read_excel(archivo, sheet_name='Hoja1')
     df_datos["País"]=df_datos["País"].replace(u"\xa0", "")
 
